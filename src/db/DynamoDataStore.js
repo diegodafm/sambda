@@ -1,13 +1,17 @@
 
 const AWS = require('aws-sdk');
-const {awsConfig} = require('../helpers/env');
+const {awsConfig, isOffline} = require('../helpers/env');
 const _ = require('lodash');
-// console.log('aaaa', Object.assign({}, awsConfig, {endpoint: 'http://localhost:8000'});
-console.log('awsConfig', awsConfig);
-AWS.config.update(awsConfig);
+const dynamodb =  require('serverless-dynamodb-client');
 
-const dynamodb = new AWS.DynamoDB.DocumentClient();
-const env = process.env.NODE_ENV || 'local';
+let db;
+if (isOffline) {
+    db = dynamodb.doc;
+} else {
+    AWS.config.update(awsConfig);
+    db = new AWS.DynamoDB.DocumentClient();
+}
+
 const DYNAMO_BATCH_GET_ITEM_LIMIT = 100; // BatchGet can retrieve at most 100 items at a time (https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchGetItem.html)
 
 class DataStore {
@@ -20,7 +24,7 @@ class DataStore {
     }
 
     static getTableName(tableName) {
-        return `${env}-${tableName}`.toLowerCase();
+        return `${tableName}`.toLowerCase();
     }
 
     setTableName(tableName) {
@@ -41,7 +45,7 @@ class DataStore {
 
 class DynamoDataStore extends DataStore {
     async get(id, keyName = 'id') {
-        const doc = await dynamodb.get({
+        const doc = await db.get({
             TableName: this.tableName,
             Key: {
                 [`${keyName}`]: id
@@ -59,7 +63,7 @@ class DynamoDataStore extends DataStore {
         const chunks = _.chunk(keys, DYNAMO_BATCH_GET_ITEM_LIMIT);
 
         const allChunksPromises = chunks.map((chunk)=> {
-            return dynamodb.batchGet({
+            return db.batchGet({
                 RequestItems: {
                     [`${this.tableName}`]: {
                         Keys: chunk
@@ -74,14 +78,14 @@ class DynamoDataStore extends DataStore {
     }
 
     async getAll() {
-        return dynamodb.scan({
+        return db.scan({
             TableName: this.tableName
         }).promise();
     }
 
     async query(params) {
         params.TableName = this.tableName;
-        return dynamodb.query(params).promise();
+        return db.query(params).promise();
     }
 
     async save(data) {
@@ -89,7 +93,7 @@ class DynamoDataStore extends DataStore {
             data.expire = Math.floor(Date.now() / 1000) + this.expire;
         }
         try {
-            await dynamodb.put({
+            await db.put({
                 TableName: this.tableName,
                 Item: JSON.parse(JSON.stringify(data)),
             }).promise();
@@ -104,14 +108,14 @@ class DynamoDataStore extends DataStore {
     }
 
     async delete(params) {
-        await dynamodb.delete({
+        await db.delete({
             TableName: this.tableName,
             Key: params
         }).promise();
     }
 
     dynamodbClient() {
-        return dynamodb;
+        return db;
     }
 }
 

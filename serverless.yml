@@ -33,7 +33,7 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: Sambda
+        TableName: users
 
 functions:
   authorizerFunc:
@@ -65,12 +65,12 @@ plugins:
   - serverless-offline
   # - serverless-webpack
 
-# custom:
+custom:
 #   webpackIncludeModules:
 #     packagePath: './package.json'
-#   dynamodb:
-#       start:
-#         migrate: true
+  dynamodb:
+      start:
+        migrate: true
 #   serverless-offline:
 #     babelOptions:
 #       presets: ["es2015", "stage-2"]
