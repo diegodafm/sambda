@@ -1,6 +1,7 @@
-const http = require('http');
+import http from 'http';
 
-exports.post = (lambdaName, data, callback) => {
+const post = (lambdaName, data, callback) => {
+	console.log('post', http);
 	var options = require('url').parse('http://localhost:3000/'+lambdaName); // sambda-handleHelloMessage
 	options.method = 'POST';
 	var req = http.request(options, function (res) {
@@ -13,3 +14,5 @@ exports.post = (lambdaName, data, callback) => {
 	req.end();
 	return req;
 };
+
+export default post;

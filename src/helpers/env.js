@@ -1,4 +1,3 @@
-exports.isOffline = true;
-exports.awsConfig = {
-    region: 'us-east-2' // US East (Ohio)
-};
+export default {
+    isOffline: process.env.IS_OFFLINE
+}

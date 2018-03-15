@@ -1,16 +1,16 @@
-const AWS = require('aws-sdk');
-const {isOffline, awsConfig} = require('../helpers/env');
-const {post} = require('../helpers/http');
-
+import AWS from 'aws-sdk';
+import env from '../helpers/env';
+import post from '../helpers/http';
 
 exports.sayHello = (event, context, callback) => {
     const { name } = event;
+    
     if (!name) {
         callback('No name received');
     }
 
-    if (isOffline) {
-        post('handleMessage', { name }, (result)=> {
+    if (env.isOffline) {
+        post('message', { name }, (result)=> {
             callback(null, result);
         });
     } else {
@@ -18,7 +18,7 @@ exports.sayHello = (event, context, callback) => {
         lambda.invoke({
             LogType: 'Tail',
             InvocationType: 'RequestResponse',
-            FunctionName: 'handleMessage',
+            FunctionName: 'message',
             Payload: JSON.stringify(event)
         }, (error, data) => {
             if (error) {
