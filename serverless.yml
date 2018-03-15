@@ -47,7 +47,7 @@ functions:
             template:
               passThrough: NEVER
 
-  handleMessage:
+  message:
     handler: build/message.message
     events:
       - http:

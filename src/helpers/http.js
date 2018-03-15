@@ -1,7 +1,6 @@
 import http from 'http';
 
 const post = (lambdaName, data, callback) => {
-	console.log('post', http);
 	var options = require('url').parse('http://localhost:3000/'+lambdaName); // sambda-handleHelloMessage
 	options.method = 'POST';
 	var req = http.request(options, function (res) {

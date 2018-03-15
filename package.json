@@ -4,15 +4,14 @@
   "description": "Local lambda ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "zip": "rm -rf build/*.js.map && find ./build -type f -execdir zip '{}.zip' '{}' \\;",
     "install:offline": "docker pull lambci/lambda",
     "install:dynamodb": "./node_modules/.bin/sls dynamodb install",
     "start:dynamodb": "./node_modules/.bin/sls dynamodb start -p 8000  --migrate true",
-    "setup": "./node_modules/.bin/sls config credentials --provider aws --key KEY --secret SECRET", 
+    "setup": "./node_modules/.bin/sls config credentials --provider aws --key KEY --secret SECRET",
     "webpack": "webpack -w",
     "serverless": "./node_modules/.bin/sls offline start -r us-east-1 --noTimeout --corsDisallowCredentials false",
-    "start" : "npm run webpack && npm run serverless"
+    "start": "npm run webpack & npm run serverless"
   },
   "author": "",
   "license": "MIT",

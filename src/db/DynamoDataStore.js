@@ -1,14 +1,13 @@
-
-const AWS = require('aws-sdk');
-const {awsConfig, isOffline} = require('../helpers/env');
-const _ = require('lodash');
-const dynamodb =  require('serverless-dynamodb-client');
+import AWS from 'aws-sdk';
+import env from '../helpers/env';
+import _ from 'lodash';
+import dynamodb from 'serverless-dynamodb-client';
 
 let db;
-if (isOffline) {
+if (env.isOffline) {
     db = dynamodb.doc;
 } else {
-    AWS.config.update(awsConfig);
+    AWS.config.update(env.awsConfig);
     db = new AWS.DynamoDB.DocumentClient();
 }
 
@@ -119,4 +118,4 @@ class DynamoDataStore extends DataStore {
     }
 }
 
-module.exports = DynamoDataStore;
+export default DynamoDataStore;
