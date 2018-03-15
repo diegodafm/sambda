@@ -13,9 +13,7 @@
   },
   "author": "",
   "license": "MIT",
-  "dependencies": {
-    
-  },
+  "dependencies": {},
   "devDependencies": {
     "aws-sdk": "^2.209.0",
     "serverless": "^1.26.1",
