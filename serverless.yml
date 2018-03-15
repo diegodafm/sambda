@@ -45,6 +45,10 @@ functions:
           path: hello
           method: post
           integration: lambda
+          request:
+            template:
+              passThrough: NEVER
+
   handleMessage:
       handler: index.handleMessage
       events:
@@ -52,6 +56,9 @@ functions:
             path: handleMessage
             method: post
             integration: lambda
+            request:
+            template:
+              passThrough: NEVER
 
 plugins:
   # - serverless-dynamodb-local

@@ -1,4 +1,4 @@
 exports.handleMessage = (event, context, callback) => {
-    const { name } = event.body;
+    const { name } = event;
     callback(null, `Greetings ${name}!`);
 };
