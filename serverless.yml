@@ -44,7 +44,7 @@ functions:
       - http:
           path: hello
           method: post
-          cors: true
+          integration: lambda
   handleMessage:
       handler: index.handleMessage
       events:
@@ -52,8 +52,6 @@ functions:
             path: handleMessage
             method: post
             integration: lambda
-            cors: true
-
 
 plugins:
   # - serverless-dynamodb-local

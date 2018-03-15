@@ -3,7 +3,7 @@ const {isOffline} = require('../helpers/env');
 const {post} = require('../helpers/http');
 
 exports.sayHello = (event, context, callback) => {
-    const { name } = JSON.parse(event.body);
+    const { name } = event.body;
     if (!name) {
         callback('No name received');
     }
