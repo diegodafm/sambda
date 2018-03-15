@@ -36,10 +36,8 @@ provider:
 #         TableName: TacoGallery
 
 functions:
-  authorizerFunc:
-      handler: handler.auth
-  helloPublic:
-    handler: index.sayHello
+  sayHello:
+    handler: build/sayHello.sayHello
     events:
       - http:
           path: hello
@@ -50,13 +48,13 @@ functions:
               passThrough: NEVER
 
   handleMessage:
-      handler: index.handleMessage
-      events:
-        - http:
-            path: handleMessage
-            method: post
-            integration: lambda
-            request:
+    handler: build/message.message
+    events:
+      - http:
+          path: message
+          method: post
+          integration: lambda
+          request:
             template:
               passThrough: NEVER
 

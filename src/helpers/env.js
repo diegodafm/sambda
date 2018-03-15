@@ -1,1 +1,3 @@
-exports.isOffline = true;
+export default {
+    isOffline: process.env.IS_OFFLINE
+}
