@@ -1,4 +1,4 @@
-service: taco-gallery
+service: sambda
 
 provider:
   name: aws
