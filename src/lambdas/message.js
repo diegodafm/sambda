@@ -3,30 +3,20 @@ import uuid from 'uuid/v1';
 
 const USER_TABLE_NAME = 'users';
 
-exports.message = (event, context, callback) => {
-    const { name, id } = event;
-    let greetingMessage = 'Greetings';
-
+exports.message = async (event, context, callback) => {
+    const { name, id:userID } = event;
     const db = new DynamoDataStore(USER_TABLE_NAME);
+    let user;
+    let greetingMessage = 'Greetings';
+    
+    if(!userID) {
+        const id = uuid();
+        user = await db.save({id, name});
+        greetingMessage = 'Welcome user';
+    } else {
+        user = await db.get(userID, 'id');
+        greetingMessage = 'Greetings user';
+    }
 
-    // console.log('1');
-    // const id = uuid();
-    // db.save({id, name}).then(result=>{
-    //     console.log(result);
-    // }).catch(error =>{
-    //     console.log(error);
-    // })
-    // console.log('2');
-
-    // if(!user){
-    //     console.log('3');
-    //     greetingMessage = 'Welcome';
-    //     db.save({name}).then(result=>{
-    //         console.log(result);
-    //     }).catch(error =>{
-    //         console.log(error);
-    //     });
-    // }
-
-    callback(null, `${greetingMessage} ${name}!`);
+    callback(null, `${greetingMessage} ${user.name}, User id: ${user.id}!`);
 };

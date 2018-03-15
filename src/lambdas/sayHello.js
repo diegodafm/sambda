@@ -2,15 +2,11 @@ import AWS from 'aws-sdk';
 import env from '../helpers/env';
 import post from '../helpers/http';
 
-exports.sayHello = (event, context, callback) => {
-    const { name } = event;
+exports.sayHello = async (event, context, callback) => {
+    const { name, id } = event;
     
-    if (!name) {
-        callback('No name received');
-    }
-
     if (env.isOffline) {
-        post('message', { name }, (result)=> {
+        post('message', { name, id }, (result)=> {
             callback(null, result);
         });
     } else {
