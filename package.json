@@ -6,17 +6,23 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "zip": "zip -r index.zip index.js",
-    "install": "docker pull lambci/lambda",
+    "install:offline": "docker pull lambci/lambda",
+    "install:dynamodb": "./node_modules/.bin/sls dynamodb install",
+    "start:dynamodb": "./node_modules/.bin/sls dynamodb start -p 8000  --migrate true",
+    "bootstrap:dynamodb": "node ./src/db/createDB",
     "setup": "./node_modules/.bin/sls config credentials --provider aws --key KEY --secret SECRET",
     "start": "./node_modules/.bin/sls offline start -r us-east-1 --noTimeout --corsDisallowCredentials false",
     "deploy": "./node_modules/.bin/sls deploy --verbose"
   },
   "author": "",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^4.17.5"
+  },
   "devDependencies": {
     "aws-sdk": "^2.209.0",
     "serverless": "^1.26.1",
+    "serverless-dynamodb-local": "^0.2.28",
     "serverless-offline": "^3.18.0",
     "serverless-plugin-simulate": "0.0.17"
   }

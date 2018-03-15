@@ -11,29 +11,29 @@ provider:
     AUTH0_DOMAIN: pfernandom.auth0.com
     AUTH0_CLIENTID: L7YiTnpuzmfa1W9spj7fIpwXgHKzSmNX
 
-# resources:
-#   Resources:
-#     TacosDB:
-#       Type: 'AWS::DynamoDB::Table'
-#       Properties:
-#         AttributeDefinitions:
-#           -
-#             AttributeName: id
-#             AttributeType: S
-#           -
-#             AttributeName: name
-#             AttributeType: S
-#         KeySchema:
-#           -
-#             AttributeName: id
-#             KeyType: HASH
-#           -
-#             AttributeName: name
-#             KeyType: RANGE
-#         ProvisionedThroughput:
-#           ReadCapacityUnits: 1
-#           WriteCapacityUnits: 1
-#         TableName: TacoGallery
+resources:
+  Resources:
+    SambdaDB:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+          -
+            AttributeName: name
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+          -
+            AttributeName: name
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: Sambda
 
 functions:
   authorizerFunc:
@@ -61,7 +61,7 @@ functions:
               passThrough: NEVER
 
 plugins:
-  # - serverless-dynamodb-local
+  - serverless-dynamodb-local
   - serverless-offline
   # - serverless-webpack
 

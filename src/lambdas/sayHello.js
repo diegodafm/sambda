@@ -1,6 +1,7 @@
 const AWS = require('aws-sdk');
-const {isOffline} = require('../helpers/env');
+const {isOffline, awsConfig} = require('../helpers/env');
 const {post} = require('../helpers/http');
+
 
 exports.sayHello = (event, context, callback) => {
     const { name } = event;
@@ -13,7 +14,6 @@ exports.sayHello = (event, context, callback) => {
             callback(null, result);
         });
     } else {
-        const awsConfig = {};
         const lambda = new AWS.Lambda(awsConfig);
         lambda.invoke({
             LogType: 'Tail',
