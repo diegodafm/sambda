@@ -5,11 +5,21 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "zip": "zip -r index.zip index.js"
+    "zip": "zip -r index.zip index.js",
+    "install": "docker pull lambci/lambda",
+    "setup": "./node_modules/.bin/sls config credentials --provider aws --key KEY --secret SECRET",
+    "start": "./node_modules/.bin/sls offline start -r us-east-1 --noTimeout --corsDisallowCredentials false",
+    "deploy": "./node_modules/.bin/sls deploy --verbose"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.209.0"
+    
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.209.0",
+    "serverless": "^1.26.1",
+    "serverless-offline": "^3.18.0",
+    "serverless-plugin-simulate": "0.0.17"
   }
 }
