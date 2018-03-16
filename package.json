@@ -4,23 +4,28 @@
   "description": "Local lambda ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "zip": "rm -rf build/*.js.map && find ./build -type f -execdir zip '{}.zip' '{}' \\;",
-    "install": "docker pull lambci/lambda",
+    "install:offline": "docker pull lambci/lambda",
+    "install:dynamodb": "./node_modules/.bin/sls dynamodb install",
+    "start:dynamodb": "./node_modules/.bin/sls dynamodb start -p 8000  --migrate true",
     "setup": "./node_modules/.bin/sls config credentials --provider aws --key KEY --secret SECRET",
-    "deploy": "./node_modules/.bin/sls deploy --verbose",
     "webpack": "webpack -w",
     "serverless": "./node_modules/.bin/sls offline start -r us-east-1 --noTimeout --corsDisallowCredentials false",
-    "start" : "npm run webpack && npm run serverless"
+    "start": "npm run webpack & npm run serverless"
   },
   "author": "",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^4.17.5"
+  },
   "devDependencies": {
+    "serverless-dynamodb-client": "0.0.2",
     "aws-sdk": "^2.209.0",
     "serverless": "^1.26.1",
+    "serverless-dynamodb-local": "^0.2.28",
     "serverless-offline": "^3.18.0",
     "serverless-plugin-simulate": "0.0.17",
+    "uuid": "^3.2.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^8.0.3",
     "babel-loader": "^7.0.0",
